@@ -2,13 +2,14 @@ cat > config.sh << 'EOF'
 #!/bin/bash
 set -e
 
-echo "Creando entorno virtual..."
-python3 -m venv ~/venv
+echo "Activando entorno virtual..."
 source ~/venv/bin/activate
 
-echo "Instalando dependencias..."
+echo "Actualizando pip..."
 pip install --upgrade pip
-pip install -r requirements.txt
+
+echo "Instalando dependencias..."
+pip install fastapi uvicorn pydantic boto3
 
 echo "Copiando servicio..."
 sudo cp fastapi.srv /etc/systemd/system/fastapi.service
@@ -19,9 +20,8 @@ sudo sed -i 's|/path/to/venv|/home/ubuntu/venv|g' /etc/systemd/system/fastapi.se
 
 echo "Iniciando API..."
 sudo systemctl daemon-reload
-sudo systemctl start fastapi
+sudo systemctl restart fastapi
 sudo systemctl enable fastapi
 
-echo "¡API LISTA! IP: $(curl -s ifconfig.me)"
-echo "Prueba: curl -X POST http://$(curl -s ifconfig.me)/insert -d '{\"nombre\":\"Test\",\"edad\":1,\"email\":\"t@t.com\"}'"
+echo "¡API CORRIENDO EN http://35.170.64.81/insert !"
 EOF
