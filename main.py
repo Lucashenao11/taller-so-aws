@@ -14,7 +14,7 @@ class Persona(BaseModel):
 
 # Configura boto3 para S3 (usa credenciales de IAM en EC2, no hardcodees keys)
 s3 = boto3.client('s3')
-BUCKET_NAME = 'tu-bucket-s3'  # Reemplaza con el nombre de tu bucket
+BUCKET_NAME = 'mi-bucket-so-2025'
 
 @app.post("/insert")
 async def insert_persona(persona: Persona):
